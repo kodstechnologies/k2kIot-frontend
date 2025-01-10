@@ -289,7 +289,7 @@ const Index = () => {
                     style={{ background: 'linear-gradient(0deg,#00c6fb -227%,#005bea)' }}
                 >
                     <div className="flex items-start justify-between text-white-light mb-16 z-[7]">
-                        <h5 className="font-semibold text-lg">Total Work Orders</h5>
+                        <h5 className="font-semibold text-lg">Total Work Orders...</h5>
                         <div className="relative text-xl whitespace-nowrap">
                             00
                             <span className="table text-[#d3d3d3] bg-[#4361ee] rounded p-1 text-xs mt-1 ltr:ml-auto rtl:mr-auto">+00</span>
