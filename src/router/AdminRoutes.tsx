@@ -126,6 +126,7 @@ const adminRoutes = [
         element: <ProductCreate />,
         layout: 'admin',
     },
+ 
     // Packing
     {
         path: '/konkrete-klinkers/packing/view',

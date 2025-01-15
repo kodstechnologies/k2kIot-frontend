@@ -14,6 +14,9 @@ export { default as JobOrderCreate } from './JobOrder/create';
 export { default as ProductView } from './Product/view';
 export { default as ProductCreate } from './Product/create';
 
+// export { default as InventoryView } from './Inventory/view';
+// export { default as InventoryCreate } from './Inventory/create';
+
 export { default as PackingView } from './Packing/view';
 export { default as PackingCreate } from './Packing/create';
 export { default as DispatchView } from './Disptach/view';

@@ -1,71 +1,109 @@
 import { DataTable, DataTableSortStatus } from 'mantine-datatable';
-import { useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { useEffect, useState, Fragment } from 'react';
+import { NavLink } from 'react-router-dom';
 
 import sortBy from 'lodash/sortBy';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '@/store';
 import Dropdown from '@/components/Dropdown';
 import { setPageTitle } from '@/store/themeConfigSlice';
-import IconBell from '@/components/Icon/IconBell';
 import IconCaretDown from '@/components/Icon/IconCaretDown';
-import IconPlus from '@/components/Icon/IconPlus';
 import IconEdit from '@/components/Icon/IconEdit';
 import IconEye from '@/components/Icon/IconEye';
-import IconTrashLines from '@/components/Icon/IconTrashLines';
-// import { Breadcrumbs } from '../../Breadcrumbs../components/Breadcrumbs';
-// import { Breadcrumbs } from '@mantine/core';
+import CodeHighlight from '@/components/Highlight';
+import { Dialog, DialogPanel, Transition, TransitionChild } from '@headlessui/react';
+import { Tab } from '@headlessui/react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import { Navigation, Pagination } from 'swiper/modules';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import IconCode from '@/components/Icon/IconCode';
+import IconX from '@/components/Icon/IconX';
+import IconUser from '@/components/Icon/IconUser';
+import IconAt from '@/components/Icon/IconAt';
+import IconLock from '@/components/Icon/IconLock';
+import IconFacebook from '@/components/Icon/IconFacebook';
+import IconGithub from '@/components/Icon/IconGithub';
+
+
 import Breadcrumbs from "@/pages/Components/Breadcrumbs";
+
+interface Product {
+    materialCode: number;
+    productDescription: string;
+    quantity: number;
+    requiredQuantity: number;
+    balanceQuantity: number;
+    unitOfMeasurement: string;
+    noOfPiecesPerPunch: number;
+    qtyInBundle: number;
+    qtyInNoPerBundle: number;
+    status: string;
+}
+
+
 const rowData = [
     {
-        id: 1,
-        firstName: 'Ravi',
-        lastName: 'kods',
-        email: 'ravikods@zidant.com',
-        dob: '2004-05-28',
-        address: {
-            street: '25 Kengeri Rpinters',
-            city: 'Kengeri',
-            zipcode: 5235,
-            geo: {
-                lat: 23.806115,
-                lng: 164.677197,
-            },
-        },
-        phone: '+91 8986000088',
-        isActive: true,
-        age: 39,
-        company: 'POLARAX',
+        materialCode: 101,
+        productDescription: 'Concrete Blocks',
+        quantity: 500,
+        requiredQuantity: 300,
+        balanceQuantity: 200,
+        unitOfMeasurement: 'sqmt',
+        noOfPiecesPerPunch: 5,
+        qtyInBundle: 6.4,
+        qtyInNoPerBundle: 160,
+        status: 'Active',
     },
     {
-        id: 2,
-        firstName: 'Ramesh',
-        lastName: 'karla',
-        email: 'crk@polarax.com',
-        dob: '1989-11-19',
-        address: {
-            street: '639 Hoysala Cirlce',
-            city: 'Kengeri',
-            zipcode: 8907,
-            geo: {
-                lat: 65.954483,
-                lng: 98.906478,
-            },
-        },
-        phone: '+91 97876778769',
-        isActive: false,
-        age: 32,
-        company: 'MANGLO',
+        materialCode: 102,
+        productDescription: 'Cement Bags',
+        quantity: 250,
+        requiredQuantity: 200,
+        balanceQuantity: 50,
+        unitOfMeasurement: 'nos',
+        noOfPiecesPerPunch: 10,
+        qtyInBundle: 25,
+        qtyInNoPerBundle: 25,
+        status: 'Active',
     },
-
+    {
+        materialCode: 103,
+        productDescription: 'Steel Rods',
+        quantity: 100,
+        requiredQuantity: 80,
+        balanceQuantity: 20,
+        unitOfMeasurement: 'nos',
+        noOfPiecesPerPunch: 2,
+        qtyInBundle: 20,
+        qtyInNoPerBundle: 20,
+        status: 'Inactive',
+    },
+    {
+        materialCode: 104,
+        productDescription: 'Bricks',
+        quantity: 1000,
+        requiredQuantity: 900,
+        balanceQuantity: 100,
+        unitOfMeasurement: 'sqmt',
+        noOfPiecesPerPunch: 8,
+        qtyInBundle: 8.32,
+        qtyInNoPerBundle: 208,
+        status: 'Active',
+    },
 ];
+
+
 
 const ColumnChooser = () => {
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(setPageTitle('Column Chooser Table'));
+        dispatch(setPageTitle('Products'));
     });
     const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
+    const [modal10, setModal10] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
     // show/hide
     const [page, setPage] = useState(1);
@@ -99,27 +137,26 @@ const ColumnChooser = () => {
             setHideCols([...hideCols, col]);
         }
     };
-
     const cols = [
-        { accessor: 'id', title: 'ID' },
-        { accessor: 'firstName', title: 'First Name' },
-        { accessor: 'lastName', title: 'Last Name' },
-        { accessor: 'email', title: 'Email' },
-        { accessor: 'phone', title: 'Phone' },
-        { accessor: 'company', title: 'Company' },
-        { accessor: 'address.street', title: 'Address' },
-        { accessor: 'age', title: 'Age' },
-        { accessor: 'dob', title: 'Birthdate' },
-        { accessor: 'isActive', title: 'Active' },
-        { accessor: 'action', title: 'Actions' },
-
+        { accessor: 'materialCode', title: 'Material Code' },
+        { accessor: 'productDescription', title: 'Product Description' },
+        { accessor: 'quantity', title: 'Quantity' },
+        { accessor: 'requiredQuantity', title: 'Required Quantity' },
+        { accessor: 'balanceQuantity', title: 'Balance Quantity' },
+        { accessor: 'unitOfMeasurement', title: 'Unit of Measurement' },
+        { accessor: 'noOfPiecesPerPunch', title: 'No. of Pieces Per Punch' },
+        { accessor: 'qtyInBundle', title: 'Quantity in Bundle' },
+        { accessor: 'qtyInNoPerBundle', title: 'Quantity in No. Per Bundle' },
+        { accessor: 'status', title: 'Status' },
+        { accessor: 'action', title: 'Actions' }, // Placeholder for actions like edit/delete.
     ];
+
 
     const breadcrumbItems = [
         { label: 'Home', link: '/', isActive: false },
         { label: 'Konkrete Klinkers', link: '#', isActive: false },
-        { label: 'Product', link: '/konkrete-klinkers/product/view', isActive: true },
-      ];
+        { label: 'Products', link: '/konkrete-klinkers/product', isActive: true },
+    ];
 
     useEffect(() => {
         setPage(1);
@@ -135,19 +172,22 @@ const ColumnChooser = () => {
         setInitialRecords(() => {
             return rowData.filter((item) => {
                 return (
-                    item.id.toString().includes(search.toLowerCase()) ||
-                    item.firstName.toLowerCase().includes(search.toLowerCase()) ||
-                    item.lastName.toLowerCase().includes(search.toLowerCase()) ||
-                    item.company.toLowerCase().includes(search.toLowerCase()) ||
-                    item.email.toLowerCase().includes(search.toLowerCase()) ||
-                    item.age.toString().toLowerCase().includes(search.toLowerCase()) ||
-                    item.dob.toLowerCase().includes(search.toLowerCase()) ||
-                    item.phone.toLowerCase().includes(search.toLowerCase())
+                    item.materialCode.toString().includes(search.toLowerCase()) ||
+                    item.productDescription.toLowerCase().includes(search.toLowerCase()) ||
+                    item.quantity.toString().includes(search.toLowerCase()) ||
+                    item.requiredQuantity.toString().includes(search.toLowerCase()) ||
+                    item.balanceQuantity.toString().includes(search.toLowerCase()) ||
+                    item.unitOfMeasurement.toLowerCase().includes(search.toLowerCase()) ||
+                    item.noOfPiecesPerPunch.toString().includes(search.toLowerCase()) ||
+                    item.qtyInBundle.toString().includes(search.toLowerCase()) ||
+                    item.qtyInNoPerBundle.toString().includes(search.toLowerCase()) ||
+                    item.status.toLowerCase().includes(search.toLowerCase())
                 );
             });
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [search]);
+
 
     useEffect(() => {
         const data = sortBy(initialRecords, sortStatus.columnAccessor);
@@ -158,36 +198,14 @@ const ColumnChooser = () => {
 
     return (
         <div>
-            {/* <div className="panel flex items-center overflow-x-auto whitespace-nowrap p-3 text-primary">
-           
-              
-
-                <ol className="flex text-primary font-semibold dark:text-white-dark">
-    <li className="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
-        <button className="p-1.5 ltr:pl-3 rtl:pr-3 ltr:pr-2 rtl:pl-2 relative  h-full flex items-center before:absolute ltr:before:-right-[15px] rtl:before:-left-[15px] rtl:before:rotate-180 before:inset-y-0 before:m-auto before:w-0 before:h-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-t-transparent before:border-b-transparent before:border-l-[#ebedf2] before:z-[1] dark:before:border-l-[#1b2e4b] hover:text-primary/70 dark:hover:text-white-dark/70">
-            Home
-        </button>
-    </li>
-    <li className="bg-[#ebedf2] dark:bg-[#1b2e4b]">
-        <button className="bg-primary text-white-light p-1.5 ltr:pl-6 rtl:pr-6 ltr:pr-2 rtl:pl-2 relative  h-full flex items-center before:absolute ltr:before:-right-[15px] rtl:before:-left-[15px] rtl:before:rotate-180 before:inset-y-0 before:m-auto before:w-0 before:h-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-t-transparent before:border-b-transparent before:border-l-primary before:z-[1]">
-            Components
-        </button>
-    </li>
-    <li className="bg-[#ebedf2] dark:bg-[#1b2e4b]">
-        <button className="p-1.5 px-3 ltr:pl-6 rtl:pr-6 relative  h-full flex items-center before:absolute ltr:before:-right-[15px] rtl:before:-left-[15px] rtl:before:rotate-180 before:inset-y-0 before:m-auto before:w-0 before:h-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-t-transparent before:border-b-transparent before:border-l-[#ebedf2] before:z-[1] dark:before:border-l-[#1b2e4b] hover:text-primary/70 dark:hover:text-white-dark/70">
-            UI Kit
-        </button>
-    </li>
-</ol>
-            </div> */}
-  <Breadcrumbs
-        items={breadcrumbItems}
-        addButton={{ label: 'Add Product', link: '/konkrete-klinkers/product/create' }}
-      />
+            <Breadcrumbs
+                items={breadcrumbItems}
+                addButton={{ label: 'Add Product', link: '/konkrete-klinkers/product/create' }}
+            />
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Show/Hide Columns</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light">Products </h5>
                     <div className="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
                         <div className="flex md:items-center md:flex-row flex-col gap-5">
                             <div className="dropdown">
@@ -243,71 +261,85 @@ const ColumnChooser = () => {
                         className="whitespace-nowrap table-hover"
                         records={recordsData}
                         columns={[
-                            { accessor: 'id', title: 'ID', sortable: true, hidden: hideCols.includes('id') },
+                            { accessor: 'materialCode', title: 'Material Code', sortable: true, hidden: hideCols.includes('materialCode') },
                             {
-                                accessor: 'firstName',
-                                title: 'First Name',
+                                accessor: 'productDescription',
+                                title: 'Product Description',
                                 sortable: true,
-                                hidden: hideCols.includes('firstName'),
+                                hidden: hideCols.includes('productDescription'),
+                            },
+                            { accessor: 'quantity', title: 'Quantity', sortable: true, hidden: hideCols.includes('quantity') },
+                            {
+                                accessor: 'requiredQuantity',
+                                title: 'Required Quantity',
+                                sortable: true,
+                                hidden: hideCols.includes('requiredQuantity'),
                             },
                             {
-                                accessor: 'lastName',
-                                title: 'Last Name',
+                                accessor: 'balanceQuantity',
+                                title: 'Balance Quantity',
                                 sortable: true,
-                                hidden: hideCols.includes('lastName'),
-                            },
-                            { accessor: 'email', title: 'Email', sortable: true, hidden: hideCols.includes('email') },
-                            { accessor: 'phone', title: 'Phone', sortable: true, hidden: hideCols.includes('phone') },
-                            {
-                                accessor: 'company',
-                                title: 'Company',
-                                sortable: true,
-                                hidden: hideCols.includes('company'),
+                                hidden: hideCols.includes('balanceQuantity'),
                             },
                             {
-                                accessor: 'address.street',
-                                title: 'Address',
+                                accessor: 'unitOfMeasurement',
+                                title: 'Unit of Measurement',
                                 sortable: true,
-                                hidden: hideCols.includes('address.street'),
+                                hidden: hideCols.includes('unitOfMeasurement'),
                             },
                             {
-                                accessor: 'age',
-                                title: 'Age',
+                                accessor: 'noOfPiecesPerPunch',
+                                title: 'No. of Pieces Per Punch',
                                 sortable: true,
-                                hidden: hideCols.includes('age'),
+                                hidden: hideCols.includes('noOfPiecesPerPunch'),
+                            },
+                            { accessor: 'qtyInBundle', title: 'Qty in Bundle', sortable: true, hidden: hideCols.includes('qtyInBundle') },
+                            {
+                                accessor: 'qtyInNoPerBundle',
+                                title: 'Qty in No. Per Bundle',
+                                sortable: true,
+                                hidden: hideCols.includes('qtyInNoPerBundle'),
                             },
                             {
-                                accessor: 'dob',
-                                title: 'Birthdate',
+                                accessor: 'status',
+                                title: 'Status',
                                 sortable: true,
-                                hidden: hideCols.includes('dob'),
-                                render: ({ dob }) => <div>{formatDate(dob)}</div>,
-                            },
-                            {
-                                accessor: 'isActive',
-                                title: 'Active',
-                                sortable: true,
-                                hidden: hideCols.includes('isActive'),
-                                render: ({ isActive }) => <div className={`${isActive ? 'text-success' : 'text-danger'} capitalize`}>{isActive.toString()}</div>,
+                                hidden: hideCols.includes('status'),
+                                render: ({ status }) => (
+                                    <div className={`${status === 'Active' ? 'text-success' : 'text-danger'} capitalize`}>
+                                        {status}
+                                    </div>
+                                ),
                             },
                             {
                                 accessor: 'action',
                                 title: 'Actions',
-                                sortable: true,
+                                sortable: false,
                                 hidden: hideCols.includes('action'),
-
-                              
-                                render: ({ id }) => (
+                                render: ({ materialCode }) => (
                                     <div className="flex gap-4 items-center w-max mx-auto">
-                                        <NavLink to="#" className="flex hover:text-info">
+                                        <NavLink to={`/edit/${materialCode}`} className="flex hover:text-info">
                                             <IconEdit className="w-4.5 h-4.5" />
                                         </NavLink>
-                                        <NavLink to="#" className="flex hover:text-primary">
+                                        <NavLink to={`/view/${materialCode}`} className="flex hover:text-primary">
                                             <IconEye />
                                         </NavLink>
-                                        {/* <NavLink to="" className="flex"> */}
-                                     
-                                        {/* </NavLink> */}
+
+                                        {/* SlideIn Down */}
+                                        <div>
+                                            <button
+                                                onClick={() => {
+                                                    const product = rowData.find((item) => item.materialCode === materialCode);
+                                                    setSelectedProduct(product || null); // Handle undefined case by setting null
+                                                    setModal10(true);
+                                                }}
+                                                type="button"
+                                                className="btn btn-info"
+                                            >
+                                                View
+                                            </button>
+
+                                        </div>
                                     </div>
                                 ),
                             },
@@ -322,8 +354,99 @@ const ColumnChooser = () => {
                         sortStatus={sortStatus}
                         onSortStatusChange={setSortStatus}
                         minHeight={200}
-                        paginationText={({ from, to, totalRecords }) => `Showing  ${from} to ${to} of ${totalRecords} entries`}
+                        paginationText={({ from, to, totalRecords }) =>
+                            `Showing ${from} to ${to} of ${totalRecords} entries`
+                        }
                     />
+
+                    <Transition appear show={modal10} as={Fragment}>
+                        <Dialog as="div" open={modal10} onClose={() => setModal10(false)} className="relative z-50">
+                            <TransitionChild
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0"
+                                enterTo="opacity-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100"
+                                leaveTo="opacity-0"
+                            >
+                                {/* Background Overlay */}
+                                <div className="fixed inset-0 bg-black/50" aria-hidden="true" />
+                            </TransitionChild>
+                            <div className="fixed inset-0 z-[999] overflow-y-auto">
+                                <div className="flex min-h-screen items-start justify-center px-4">
+                                    <Dialog.Panel className="panel animate__animated animate__slideInDown my-8 w-full max-w-lg overflow-hidden rounded-lg border-0 p-0 text-black dark:text-white-dark bg-white dark:bg-gray-800">
+                                        {/* Modal Header */}
+                                        <div className="flex items-center justify-between bg-gray-100 px-5 py-3 dark:bg-[#121c2c]">
+                                            <h5 className="text-lg font-bold">{selectedProduct?.productDescription}</h5>
+                                            <button
+                                                onClick={() => setModal10(false)}
+                                                type="button"
+                                                className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white"
+                                            >
+                                                <IconX />
+                                            </button>
+                                        </div>
+                                        {/* Modal Body */}
+                                        <div>
+                                            {/* Full-width Product Image */}
+                                            <img
+                                                src="/assets/images/profile-34.jpeg" alt="Product"
+                                                className="w-full h-60 object-cover"
+                                            />
+                                            {/* Product Details */}
+                                            <div className="p-5">
+                                                <div className="grid grid-cols-2 gap-4">
+                                                    <div>
+                                                        <p className="text-sm text-gray-600 dark:text-gray-400">Material Code:</p>
+                                                        <p className="text-base font-medium text-gray-800 dark:text-white">{selectedProduct?.materialCode || 'N/A'}</p>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-sm text-gray-600 dark:text-gray-400">Quantity:</p>
+                                                        <p className="text-base font-medium text-gray-800 dark:text-white">{selectedProduct?.quantity || 'N/A'}</p>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-sm text-gray-600 dark:text-gray-400">Required Quantity:</p>
+                                                        <p className="text-base font-medium text-gray-800 dark:text-white">{selectedProduct?.requiredQuantity || 'N/A'}</p>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-sm text-gray-600 dark:text-gray-400">Balance Quantity:</p>
+                                                        <p className="text-base font-medium text-gray-800 dark:text-white">{selectedProduct?.balanceQuantity || 'N/A'}</p>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-sm text-gray-600 dark:text-gray-400">Unit of Measurement:</p>
+                                                        <p className="text-base font-medium text-gray-800 dark:text-white">{selectedProduct?.unitOfMeasurement || 'N/A'}</p>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-sm text-gray-600 dark:text-gray-400">Status:</p>
+                                                        <span
+                                                            className={`inline-block px-3 py-1 text-sm font-medium rounded-full ${selectedProduct?.status === 'Active'
+                                                                    ? 'bg-green-100 text-green-700'
+                                                                    : 'bg-red-100 text-red-700'
+                                                                }`}
+                                                        >
+                                                            {selectedProduct?.status || 'N/A'}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div className="mt-8 flex items-center justify-end">
+                                                    <button
+                                                        onClick={() => setModal10(false)}
+                                                        type="button"
+                                                        className="btn btn-outline-danger"
+                                                    >
+                                                        Close
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </Dialog.Panel>
+                                </div>
+                            </div>
+                        </Dialog>
+                    </Transition>
+
+
                 </div>
             </div>
         </div>

@@ -153,102 +153,166 @@ const AccountSetting = () => {
                 )}
                 {tabs === 'payment-details' ? (
                         <div>
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
-                            <div className="panel">
-                                <div className="mb-5">
-                                    <h5 className="font-semibold text-lg mb-4">User Permissions</h5>
-                                    <p>
-                                        Manage the permissions for individual users. Select or deselect the permissions you want to grant.
-                                    </p>
-                                </div>
-                                <div className="mb-5">
-                                    <form>
-                                        <div className="mb-5">
-                                            <h6 className="font-semibold text-base mb-3">General Permissions</h6>
-                                            <div className="flex items-center mb-2">
-                                                <input
-                                                    type="checkbox"
-                                                    id="selectAll"
-                                                    className="form-checkbox cursor-pointer"
-                                                    onChange={toggleAllPermissions}
-                                                />
-                                                <label htmlFor="selectAll" className="ml-3 text-sm">Select All</label>
-                                            </div>
-                                            <div className="flex items-center mb-2">
-                                                <input type="checkbox" id="createWorkOrder" className="form-checkbox cursor-pointer" />
-                                                <label htmlFor="createWorkOrder" className="ml-3 text-sm">Create Work Order</label>
-                                            </div>
-                                            <div className="flex items-center mb-2">
-                                                <input type="checkbox" id="approveWorkOrder" className="form-checkbox cursor-pointer" />
-                                                <label htmlFor="approveWorkOrder" className="ml-3 text-sm">Approval of Work Order</label>
-                                            </div>
-                                            <div className="flex items-center mb-2">
-                                                <input type="checkbox" id="productionPlanning" className="form-checkbox cursor-pointer" />
-                                                <label htmlFor="productionPlanning" className="ml-3 text-sm">Daily Production Report</label>
-                                            </div>
-                                            <div className="flex items-center mb-2">
-                                                <input type="checkbox" id="dispatch" className="form-checkbox cursor-pointer" />
-                                                <label htmlFor="dispatch" className="ml-3 text-sm">Dispatch</label>
-                                            </div>
-                                            <div className="flex items-center mb-2">
-                                                <input type="checkbox" id="operator" className="form-checkbox cursor-pointer" />
-                                                <label htmlFor="operator" className="ml-3 text-sm">Operator</label>
-                                            </div>
-                                            <div className="flex items-center mb-2">
-                                                <input type="checkbox" id="packing" className="form-checkbox cursor-pointer" />
-                                                <label htmlFor="packing" className="ml-3 text-sm">Packing</label>
-                                            </div>
-                                        </div>
-            
-                                        <button type="button" className="btn btn-primary" onClick={savePermissions}>
-                                            Save Permissions
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-            
-                            <div className="panel">
-                                <div className="mb-5">
-                                    <h5 className="font-semibold text-lg mb-4">User Information</h5>
-                                    <p>
-                                        Displaying the current user's basic information.
-                                    </p>
-                                </div>
-                                <div className="mb-5">
-                                    <div className="border-b border-[#ebedf2] dark:border-[#1b2e4b]">
-                                        <div className="flex items-start justify-between py-3">
-                                            <h6 className="text-[#515365] font-bold dark:text-white-dark text-[15px]">
-                                                Full Name:
-                                                <span className="block text-white-dark dark:text-white-light font-normal text-xs mt-1">
-                                               {userDetail.fullName || "Employee name"}
-                                                </span>
-                                            </h6>
-                                        </div>
-                                    </div>
-                                    <div className="border-b border-[#ebedf2] dark:border-[#1b2e4b]">
-                                        <div className="flex items-start justify-between py-3">
-                                            <h6 className="text-[#515365] font-bold dark:text-white-dark text-[15px]">
-                                                Email:
-                                                <span className="block text-white-dark dark:text-white-light font-normal text-xs mt-1">
-                                                {userDetail.email || "k2k@gmail.com"}
-                                                </span>
-                                            </h6>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="flex items-start justify-between py-3">
-                                            <h6 className="text-[#515365] font-bold dark:text-white-dark text-[15px]">
-                                                Role:
-                                                <span className="block text-white-dark dark:text-white-light font-normal text-xs mt-1">
-                                                   Admin
-                                                </span>
-                                            </h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button className="btn btn-dark">Edit User Information</button>
-                            </div>
-                        </div>
+ <div className="grid grid-cols-1 lg:grid-cols-1 gap-5 mb-5">
+  <div className="panel">
+    <div className="mb-5">
+      <h5 className="font-semibold text-lg mb-4">User Permissions</h5>
+      <p>
+        Manage the permissions for individual users. Select or deselect the permissions you want to grant.
+      </p>
+    </div>
+
+    {/* Permissions Table */}
+    <div className="table-responsive">
+      <table className="table table-bordered w-full">
+        <thead>
+          <tr>
+            <th>Module</th>
+            <th className="text-center">Create</th>
+            <th className="text-center">Read</th>
+            <th className="text-center">Update</th>
+            <th className="text-center">Update Status</th>
+            <th className="text-center">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {/* Work Order */}
+          <tr>
+            <td>Work Order</td>
+            <td className="text-center">
+              <input type="checkbox" id="WorkOrder_Create" className="form-checkbox cursor-pointer" />
+            </td>
+            <td className="text-center">
+              <input type="checkbox" id="WorkOrder_Read" className="form-checkbox cursor-pointer" />
+            </td>
+            <td className="text-center">
+              <input type="checkbox" id="WorkOrder_Update" className="form-checkbox cursor-pointer" />
+            </td>
+            <td className="text-center">
+              <input type="checkbox" id="WorkOrder_UpdateStatus" className="form-checkbox cursor-pointer" />
+            </td>
+            <td className="text-center">
+              <input type="checkbox" id="WorkOrder_Delete" className="form-checkbox cursor-pointer" />
+            </td>
+          </tr>
+
+          {/* Job Order */}
+          <tr>
+            <td>Job Order</td>
+            <td className="text-center">
+              <input type="checkbox" id="JobOrder_Create" className="form-checkbox cursor-pointer" />
+            </td>
+            <td className="text-center">
+              <input type="checkbox" id="JobOrder_Read" className="form-checkbox cursor-pointer" />
+            </td>
+            <td className="text-center">
+              <input type="checkbox" id="JobOrder_Update" className="form-checkbox cursor-pointer" />
+            </td>
+            <td className="text-center"></td>
+            <td className="text-center">
+              <input type="checkbox" id="JobOrder_Delete" className="form-checkbox cursor-pointer" />
+            </td>
+          </tr>
+
+          {/* Daily Production Report */}
+          <tr>
+            <td>Daily Production Report</td>
+            <td className="text-center">
+              <input type="checkbox" id="DailyProductionReport_Create" className="form-checkbox cursor-pointer" />
+            </td>
+            <td className="text-center">
+              <input type="checkbox" id="DailyProductionReport_Read" className="form-checkbox cursor-pointer" />
+            </td>
+            <td className="text-center">
+              <input type="checkbox" id="DailyProductionReport_Update" className="form-checkbox cursor-pointer" />
+            </td>
+            <td className="text-center"></td>
+            <td className="text-center"></td>
+          </tr>
+
+          {/* Users */}
+          <tr>
+            <td>Users</td>
+            <td className="text-center">
+              <input type="checkbox" id="Users_Create" className="form-checkbox cursor-pointer" />
+            </td>
+            <td className="text-center">
+              <input type="checkbox" id="Users_Read" className="form-checkbox cursor-pointer" />
+            </td>
+            <td className="text-center">
+              <input type="checkbox" id="Users_Update" className="form-checkbox cursor-pointer" />
+            </td>
+            <td className="text-center">
+              <input type="checkbox" id="Users_UpdateStatus" className="form-checkbox cursor-pointer" />
+            </td>
+            <td className="text-center"></td>
+          </tr>
+
+          {/* QC Check */}
+          <tr>
+            <td>QC Check</td>
+            <td className="text-center">
+              <input type="checkbox" id="QCCheck_Create" className="form-checkbox cursor-pointer" />
+            </td>
+            <td className="text-center">
+              <input type="checkbox" id="QCCheck_Read" className="form-checkbox cursor-pointer" />
+            </td>
+            <td className="text-center"></td>
+            <td className="text-center"></td>
+            <td className="text-center">
+              <input type="checkbox" id="QCCheck_Delete" className="form-checkbox cursor-pointer" />
+            </td>
+          </tr>
+
+          {/* Dispatch */}
+          <tr>
+            <td>Dispatch</td>
+            <td className="text-center">
+              <input type="checkbox" id="Dispatch_Create" className="form-checkbox cursor-pointer" />
+            </td>
+            <td className="text-center">
+              <input type="checkbox" id="Dispatch_Read" className="form-checkbox cursor-pointer" />
+            </td>
+            <td className="text-center">
+              <input type="checkbox" id="Dispatch_Update" className="form-checkbox cursor-pointer" />
+            </td>
+            <td className="text-center">
+              <input type="checkbox" id="Dispatch_UpdateStatus" className="form-checkbox cursor-pointer" />
+            </td>
+            <td className="text-center">
+              <input type="checkbox" id="Dispatch_Delete" className="form-checkbox cursor-pointer" />
+            </td>
+          </tr>
+
+          {/* Packing */}
+          <tr>
+            <td>Packing</td>
+            <td className="text-center">
+              <input type="checkbox" id="Packing_Create" className="form-checkbox cursor-pointer" />
+            </td>
+            <td className="text-center">
+              <input type="checkbox" id="Packing_Read" className="form-checkbox cursor-pointer" />
+            </td>
+            <td className="text-center">
+              <input type="checkbox" id="Packing_Update" className="form-checkbox cursor-pointer" />
+            </td>
+            <td className="text-center"></td>
+            <td className="text-center"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    {/* Save Button */}
+    <div className="mt-4">
+      <button type="button" className="btn btn-primary" onClick={savePermissions}>
+        Save Permissions
+      </button>
+    </div>
+  </div>
+</div>
+
+
                     </div>
                 ) : (
                     ''

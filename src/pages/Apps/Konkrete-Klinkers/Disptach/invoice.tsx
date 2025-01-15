@@ -31,10 +31,10 @@ const InvoicePreview = () => {
     const items = [
         {
             id: 1,
-            title: `Product: ${productId}`,
+            title: `Product: Rs. {productId}`,
             quantity: dispatchQuantity,
             price: '150', // Replace with actual pricing logic if available
-            amount: (dispatchQuantity * 150).toFixed(2), // Assuming $150 per unit
+            amount: (dispatchQuantity * 150).toFixed(2), // Assuming Rs. 150 per unit
         },
     ];
 
@@ -75,55 +75,105 @@ const InvoicePreview = () => {
                     <IconPrinter />
                     Print
                 </button>
-{/* 
+                {/* 
                 <button type="button" className="btn btn-success gap-2">
                     <IconDownload />
                     Download
                 </button> */}
 
-             
+
             </div>
             <div className="panel">
-                <div className="flex justify-between flex-wrap gap-4 px-4">
-                    <div className="text-2xl font-semibold uppercase">Dispatch Invoice</div>
-                    <div className="shrink-0">
-                        <img src="/k2k_iot_logo.jfif" alt="img" className="w-14 ltr:ml-auto rtl:mr-auto" />
+                <div className="flex justify-between items-start flex-wrap gap-4 px-4">
+                    {/* Left Section: Company Logo and Addresses */}
+                    <div className="flex flex-col space-y-2">
+                        <img src="/k2k_iot_logo.jfif" alt="Company Logo" className="w-14" />
+                        <div className="text-white-dark">
+                            <p>46, 3rd Floor, BEML Layout</p>
+                            <p>Rajarajeshwari Nagar</p>
+                            <p>Bengaluru, Karnataka 560098</p>
+                            <p>kodstech@gmail.com</p>
+                            <p>+91 8987999988</p>
+                        </div>
                     </div>
-                </div>
-                <div className="ltr:text-right rtl:text-left px-4">
-                    <div className="space-y-1 mt-6 text-white-dark">
-                        <div>46, 3rd Floor, BEML Layout, Rajarajeshwari Nagar, Bengaluru, Karnataka 560098</div>
-                        <div>kodstech@gmail.com.com</div>
-                        <div>+91 8987999988</div>
+
+                    {/* Right Section: QR Code and IRN Number */}
+                    <div className="flex flex-col items-center space-y-2">
+                        <img src="/qrCode.png" alt="QR Code" className="w-24 h-24" />
+                        <p className="text-white-dark">IRN: 1234567890</p>
                     </div>
                 </div>
 
+
+
                 <hr className="border-white-light dark:border-[#1b2e4b] my-6" />
-                <div className="flex justify-between lg:flex-row flex-col gap-6 flex-wrap">
-                    <div className="flex-1">
-                        <div className="space-y-1 text-white-dark">
-                            <div>Issue For:</div>
-                            <div className="text-black dark:text-white font-semibold">{clientName}</div>
-                            <div>{projectName}</div>
-                        </div>
+                <div className="border border-gray-300 rounded-md p-4 space-y-4">
+                    {/* Header */}
+                    <div className="text-center font-bold text-lg uppercase">
+                        <p>PAN No. AACCT6977C GST No. 29AACCT6977C1ZZ CIN No. U45200TG2007PTC054531</p>
+                        <p className="mt-2 text-xl">DC CUM TAX INVOICE</p>
                     </div>
-                    <div className="flex justify-between sm:flex-row flex-col gap-6 lg:w-2/3">
-                        <div className="xl:1/3 lg:w-2/5 sm:w-1/2">
-                            <div className="flex items-center w-full justify-between mb-2">
-                                <div className="text-white-dark">Work Order Number :</div>
-                                <div>{workOrderNumber}</div>
-                            </div>
-                            <div className="flex items-center w-full justify-between mb-2">
-                                <div className="text-white-dark">Invoice/STO :</div>
-                                <div>{invoiceSto}</div>
-                            </div>
-                            <div className="flex items-center w-full justify-between mb-2">
-                                <div className="text-white-dark">Vehicle Number :</div>
-                                <div>{vehicleNumber}</div>
+
+                    {/* Main Content */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        {/* Client Name and Address */}
+                        <div className="border border-gray-300 p-4 rounded-md">
+                            <h3 className="font-semibold text-center border-b border-gray-300 pb-2">Client Name and Address</h3>
+                            <p className="mt-2 font-bold">Prestige Beta Projects Private</p>
+                            <p>Ammanikere, Bellandur Village</p>
+                            <p>Varthur Hobli, Bengaluru East Taluk</p>
+                            <p>Bengaluru-560103</p>
+                            <p className="mt-2">Client GST: 29AAMCP5351N1ZO</p>
+                            <p>Place of Supply: Karnataka (29)</p>
+                            <p className="mt-2">Tax Applicable under RCM: No</p>
+                        </div>
+
+                        {/* Ship To */}
+                        <div className="border border-gray-300 p-4 rounded-md">
+                            <h3 className="font-semibold text-center border-b border-gray-300 pb-2">Ship To</h3>
+                            <p className="mt-2 font-bold">Prestige Lake Shore Drive</p>
+                            <p>Ammanikere, Bellandur Village</p>
+                            <p>Varthur Hobli, Bengaluru East Taluk</p>
+                            <p>BENGALURU-560103</p>
+                        </div>
+
+                        {/* Invoice Details */}
+                        <div className="border border-gray-300 p-4 rounded-md">
+                            <h3 className="font-semibold text-center border-b border-gray-300 pb-2">Invoice Details</h3>
+                            <div className="mt-2 space-y-2">
+                                <div className="flex justify-between">
+                                    <span className="font-medium">Invoice No.:</span>
+                                    <span>SI2995000922</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="font-medium">Int. Doc. No.:</span>
+                                    <span>2001032612</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="font-medium">Document Date:</span>
+                                    <span>18.11.2024</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="font-medium">Order No.:</span>
+                                    <span>4900007103 Dt 24.10.2024</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="font-medium">Vehicle No.:</span>
+                                    <span>KA34A1530</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="font-medium">Docket No.:</span>
+                                    <span>MT NO 45505</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="font-medium">Project:</span>
+                                    <span>K2K Block & Pavers</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div className="table-responsive mt-6">
                     <table className="table-striped">
                         <thead>
@@ -144,8 +194,8 @@ const InvoicePreview = () => {
                                         <td>{item.id}</td>
                                         <td>{item.title}</td>
                                         <td>{item.quantity}</td>
-                                        <td className="ltr:text-right rtl:text-left">${item.price}</td>
-                                        <td className="ltr:text-right rtl:text-left">${item.amount}</td>
+                                        <td className="ltr:text-right rtl:text-left">Rs. {item.price}</td>
+                                        <td className="ltr:text-right rtl:text-left">Rs. {item.amount}</td>
                                     </tr>
                                 );
                             })}
@@ -157,14 +207,100 @@ const InvoicePreview = () => {
                     <div className="ltr:text-right rtl:text-left space-y-2">
                         <div className="flex items-center">
                             <div className="flex-1">Subtotal</div>
-                            <div className="w-[37%]">${(dispatchQuantity * 150).toFixed(2)}</div>
+                            <div className="w-[37%]">Rs. {(dispatchQuantity * 150).toFixed(2)}</div>
                         </div>
-                        <div className="flex items-center font-semibold text-lg">
-                            <div className="flex-1">Grand Total</div>
-                            <div className="w-[37%]">${(dispatchQuantity * 150).toFixed(2)}</div>
-                        </div>
+                       
                     </div>
                 </div>
+
+                {/* GST and State GST Table */}
+  <div className="table-responsive mt-6">
+    <table className="table-striped">
+      <thead>
+        <tr>
+          <th>Tax Description</th>
+          <th className="ltr:text-right rtl:text-left">Rate (%)</th>
+          <th className="ltr:text-right rtl:text-left">Amount (Rs. )</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CGST</td>
+          <td className="ltr:text-right rtl:text-left">9%</td>
+          <td className="ltr:text-right rtl:text-left">Rs. {(dispatchQuantity * 150 * 0.09).toFixed(2)}</td>
+        </tr>
+        <tr>
+          <td>SGST</td>
+          <td className="ltr:text-right rtl:text-left">9%</td>
+          <td className="ltr:text-right rtl:text-left">Rs. {(dispatchQuantity * 150 * 0.09).toFixed(2)}</td>
+        </tr>
+        <tr>
+          <td className="font-semibold">Total Tax</td>
+          <td className="ltr:text-right rtl:text-left"></td>
+          <td className="font-semibold ltr:text-right rtl:text-left">
+            Rs. {(dispatchQuantity * 150 * 0.18).toFixed(2)}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div className="flex items-center text-right font-semibold text-lg">
+                            <div className="flex-1">Grand Total</div>
+                            <div className="w-[37%]">Rs. {(dispatchQuantity * 150).toFixed(2)}</div>
+                        </div>
+
+    {/* Bank Details */}
+    <div className="mt-8 p-4 border border-gray-300 rounded-md bg-gray-50 dark:bg-gray-800">
+    <h3 className="font-semibold text-lg mb-4">Bank Details</h3>
+    <div className="space-y-2 text-sm">
+      <p><strong>Account Name:</strong> K2K Block & Pavers</p>
+      <p><strong>Bank Name:</strong> State Bank of India</p>
+      <p><strong>Account Number:</strong> 1234567890</p>
+      <p><strong>IFSC Code:</strong> SBIN0012345</p>
+      <p><strong>Branch:</strong> Rajarajeshwari Nagar, Bengaluru</p>
+    </div>
+  </div>
+
+  <div className="mt-8 p-4 border border-gray-300 rounded-md bg-gray-50 dark:bg-gray-800">
+  <h3 className="font-semibold text-lg mb-4">Bank Details</h3>
+  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+    <div>
+      <p><strong>Account Name:</strong></p>
+      <p>K2K Block & Pavers</p>
+    </div>
+    <div>
+      <p><strong>Bank Name:</strong></p>
+      <p>State Bank of India</p>
+    </div>
+    <div>
+      <p><strong>Account Number:</strong></p>
+      <p>1234567890</p>
+    </div>
+    <div>
+      <p><strong>IFSC Code:</strong></p>
+      <p>SBIN0012345</p>
+    </div>
+    <div className="sm:col-span-2">
+      <p><strong>Branch:</strong></p>
+      <p>Rajarajeshwari Nagar, Bengaluru</p>
+    </div>
+  </div>
+</div>
+
+
+
+  {/* General Terms and Conditions */}
+  <div className="mt-8 p-4 border border-gray-300 rounded-md bg-gray-50 dark:bg-gray-800">
+    <h3 className="font-semibold text-lg mb-4">General Terms and Conditions</h3>
+    <ul className="list-disc pl-5 space-y-2 text-sm">
+      <li>All payments must be made within the due date mentioned in the invoice.</li>
+      <li>Any disputes regarding the invoice should be reported within 7 days.</li>
+      <li>Goods once sold are not refundable or returnable.</li>
+      <li>Taxes are applicable as per government norms.</li>
+      <li>The company reserves the right to change terms without prior notice.</li>
+    </ul>
+  </div>
+
             </div>
         </div>
     );

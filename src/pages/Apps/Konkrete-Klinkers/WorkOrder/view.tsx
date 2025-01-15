@@ -139,7 +139,7 @@ const ColumnChooser = () => {
 
             <div className="panel mt-6">
                 <div className="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Show/Hide Columns</h5>
+                    <h5 className="font-semibold text-lg dark:text-white-light">Work Order</h5>
                     <div className="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
                         <div className="flex md:items-center md:flex-row flex-col gap-5">
                             <div className="dropdown">
