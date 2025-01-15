@@ -27,8 +27,8 @@ jobs:
       - name: Deploy to cPanel via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          server: ${{ secrets.FTP_SERVER }} #sdfdf
+          server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
+          password: ${{ secrets.FTP_PASSWORD }} #adjjuu
           local-dir: ./dist/
-          server-dir: /k2k-iot.kods.app/  # Adjust if your React app is in a subdirectory
+          server-dir: /public_html/  # Adjust if your React app is in a subdirectory
