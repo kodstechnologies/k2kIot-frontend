@@ -31,4 +31,4 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }} #adjjuu
           local-dir: ./dist/
-          server-dir: /public_html/  # Adjust if your React app is in a subdirectory
+          server-dir: /  # Adjust if your React app is in a subdirectory
