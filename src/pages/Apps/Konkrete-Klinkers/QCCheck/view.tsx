@@ -299,10 +299,10 @@ const ColumnChooser = () => {
                               
                                 render: ({ id }) => (
                                     <div className="flex gap-4 items-center w-max mx-auto">
-                                        <NavLink to="/apps/invoice/edit" className="flex hover:text-info">
+                                        <NavLink to="#" className="flex hover:text-info">
                                             <IconEdit className="w-4.5 h-4.5" />
                                         </NavLink>
-                                        <NavLink to="/apps/invoice/preview" className="flex hover:text-primary">
+                                        <NavLink to="#" className="flex hover:text-primary">
                                             <IconEye />
                                         </NavLink>
                                         {/* <NavLink to="" className="flex"> */}

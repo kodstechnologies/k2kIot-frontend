@@ -9,6 +9,14 @@ interface WorkOrder {
     projectName: string;
     poQuantity: number;
 }
+interface PlantData {
+    id: string;
+    plantName: string;
+}
+interface FactoryData {
+    id: string;
+    factoryName: string;
+}
 
 // jobDetails
 
@@ -29,7 +37,7 @@ interface FormData {
     plannedQuantity: string;
     actualQuantity: string;
     rejectedQuantity: string;
-    recycledQuantity:string;
+    recycledQuantity: string;
 }
 
 const ProductionPlanning = () => {
@@ -45,7 +53,7 @@ const ProductionPlanning = () => {
         plannedQuantity: '',
         actualQuantity: '',
         rejectedQuantity: '',
-        recycledQuantity:'',
+        recycledQuantity: '',
     });
 
     const workOrders: WorkOrder[] = [
@@ -53,6 +61,18 @@ const ProductionPlanning = () => {
         { id: 'WO101', clientName: 'Client A', projectName: 'Project X', poQuantity: 100 },
         { id: 'WO102', clientName: 'Client B', projectName: 'Project Y', poQuantity: 200 },
         { id: 'WO103', clientName: 'Client C', projectName: 'Project Z', poQuantity: 300 },
+    ];
+    const plantDatas: PlantData[] = [
+
+        { id: 'Plant1', plantName: 'Plant A' },
+        { id: 'Plant2', plantName: 'Plant B' },
+        { id: 'Plant3', plantName: 'Plant C ' },
+    ];
+    const factoryDatas: FactoryData[] = [
+
+        { id: 'Factory1', factoryName: 'Factory A' },
+        { id: 'Factory2', factoryName: 'Factory B' },
+        { id: 'Factory3', factoryName: 'Factory C' },
     ];
 
     const jobOrders: JobOrder[] = [
@@ -106,15 +126,15 @@ const ProductionPlanning = () => {
     )?.jobOrders;
 
     const [items, setItems] = useState<any>([
-        { id: 1, title: 'Product 1', uom: 'KG',poQuantity:0,plannedQuantity: 0, achievedQuantity: 0, rejectedQuantity: 0 ,recycledQuantity: 0},
-        { id: 2, title: 'Product 2', uom: 'Piece',poQuantity:0, plannedQuantity: 0, achievedQuantity: 0, rejectedQuantity: 0 ,recycledQuantity: 0},
-        { id: 3, title: 'Product 3', uom: 'Box', poQuantity:0,plannedQuantity: 0, achievedQuantity: 0, rejectedQuantity: 0,recycledQuantity: 0 },
+        { id: 1, title: 'Product 1', uom: 'KG', poQuantity: 0, plannedQuantity: 0, achievedQuantity: 0, rejectedQuantity: 0, recycledQuantity: 0 },
+        { id: 2, title: 'Product 2', uom: 'Piece', poQuantity: 0, plannedQuantity: 0, achievedQuantity: 0, rejectedQuantity: 0, recycledQuantity: 0 },
+        { id: 3, title: 'Product 3', uom: 'Box', poQuantity: 0, plannedQuantity: 0, achievedQuantity: 0, rejectedQuantity: 0, recycledQuantity: 0 },
     ]);
 
     //add item can be used if new adding of items are required
     const addItem = () => {
         const maxId = items.length ? Math.max(...items.map((item: any) => item.id)) : 0;
-        setItems([...items, { id: maxId + 1, title: '', uom: '', plannedQuantity: 0, achievedQuantity: 0, rejectedQuantity: 0 ,recycledQuantity: 0}]);
+        setItems([...items, { id: maxId + 1, title: '', uom: '', plannedQuantity: 0, achievedQuantity: 0, rejectedQuantity: 0, recycledQuantity: 0 }]);
     };
 
     const removeItem = (item: any) => {
@@ -129,27 +149,27 @@ const ProductionPlanning = () => {
         );
     };
 
-        // **Downtime Details State**
-        const [downtimeItems, setDowntimeItems] = useState<any[]>([
-            { id: 1, description: '', minutes: 0, remarks: '' },
-        ]);
-    
-        const addDowntimeItem = () => {
-            const maxId = downtimeItems.length ? Math.max(...downtimeItems.map((item) => item.id)) : 0;
-            setDowntimeItems([...downtimeItems, { id: maxId + 1, description: '', minutes: 0, remarks: '' }]);
-        };
-    
-        const removeDowntimeItem = (item: any) => {
-            setDowntimeItems(downtimeItems.filter((d: any) => d.id !== item.id));
-        };
-    
-        const handleDowntimeChange = (id: number, field: string, value: string | number) => {
-            setDowntimeItems((prevItems) =>
-                prevItems.map((item) =>
-                    item.id === id ? { ...item, [field]: value } : item
-                )
-            );
-        };
+    // **Downtime Details State**
+    const [downtimeItems, setDowntimeItems] = useState<any[]>([
+        { id: 1, description: '', minutes: 0, remarks: '' },
+    ]);
+
+    const addDowntimeItem = () => {
+        const maxId = downtimeItems.length ? Math.max(...downtimeItems.map((item) => item.id)) : 0;
+        setDowntimeItems([...downtimeItems, { id: maxId + 1, description: '', minutes: 0, remarks: '' }]);
+    };
+
+    const removeDowntimeItem = (item: any) => {
+        setDowntimeItems(downtimeItems.filter((d: any) => d.id !== item.id));
+    };
+
+    const handleDowntimeChange = (id: number, field: string, value: string | number) => {
+        setDowntimeItems((prevItems) =>
+            prevItems.map((item) =>
+                item.id === id ? { ...item, [field]: value } : item
+            )
+        );
+    };
 
     return (
         <div className="panel">
@@ -179,25 +199,25 @@ const ProductionPlanning = () => {
                     </div>
 
                     {/* Job Order Dropdown */}
-                   
-                        <div>
-                            <label htmlFor="salesOrderNumber">Job Order Number</label>
-                            <select
-                                id="salesOrderNumber"
-                                name="salesOrderNumber"
-                                className="form-input"
-                                value={formData.salesOrderNumber}
-                                onChange={handleInputChange}
-disabled = {!formData.workOrderNumber}                            >
-                                <option value="">Select Job Order</option>
-                                {relevantJobOrders?.map((jo) => (
-                                    <option key={jo.id} value={jo.id}>
-                                        {jo.id} - {jo.jobDetails}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-           
+
+                    <div>
+                        <label htmlFor="salesOrderNumber">Job Order Number</label>
+                        <select
+                            id="salesOrderNumber"
+                            name="salesOrderNumber"
+                            className="form-input"
+                            value={formData.salesOrderNumber}
+                            onChange={handleInputChange}
+                            disabled={!formData.workOrderNumber}                            >
+                            <option value="">Select Job Order</option>
+                            {relevantJobOrders?.map((jo) => (
+                                <option key={jo.id} value={jo.id}>
+                                    {jo.id} - {jo.jobDetails}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
 
                     {/* Client Name */}
                     <div>
@@ -224,35 +244,45 @@ disabled = {!formData.workOrderNumber}                            >
                             disabled
                         />
                     </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+
+                    <div>
+                        <label htmlFor="workOrderNumber">Plant Name</label>
+                        <select
+                            id="workOrderNumber"
+                            name="workOrderNumber"
+                            className="form-input"
+                            value={formData.workOrderNumber}
+                        >
+                            <option value="">Select Plant Name</option>
+                            {plantDatas.map((wo) => (
+                                <option key={wo.id} value={wo.id}>
+                                    {wo.id}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <label htmlFor="workOrderNumber">Factory Name</label>
+                        <select
+                            id="workOrderNumber"
+                            name="workOrderNumber"
+                            className="form-input"
+                            value={formData.workOrderNumber}
+                        >
+                            <option value="">Select Factory Name</option>
+                            {factoryDatas.map((wo) => (
+                                <option key={wo.id} value={wo.id}>
+                                    {wo.id}
+                                </option>
+                            ))}
+                        </select>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
-                  
-                    {/* Sales Order Number */}
-                    <div>
-                        <label htmlFor="salesOrderNumber">Plant name</label>
-                        <input
-                            id="salesOrderNumber"
-                            name="salesOrderNumber"
-                            type="text"
-                            placeholder="Enter Plant Name"
-                            className="form-input"
-                            value={formData.salesOrderNumber}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="salesOrderNumber">Factory Name</label>
-                        <input
-                            id="salesOrderNumber"
-                            name="salesOrderNumber"
-                            type="text"
-                            placeholder="Enter Factory name"
-                            className="form-input"
-                            value={formData.salesOrderNumber}
-                            onChange={handleInputChange}
-                        />
-                    </div>
+
+                 
 
                     <div>
                         <label htmlFor="salesOrderNumber">Sales Order Number (Optional)</label>
@@ -293,7 +323,7 @@ disabled = {!formData.workOrderNumber}                            >
 
 
                 <div className="mt-8">
-           <h3 className="font-semibold text-lg">Select Product </h3>
+                    <h3 className="font-semibold text-lg">Select Product </h3>
 
                     <div className="table-responsive">
                         <table>
@@ -306,7 +336,7 @@ disabled = {!formData.workOrderNumber}                            >
                                     <th className="w-1">Achieved Quantity</th>
                                     <th className="w-1">Rejected Quantity</th>
                                     <th className="w-1">Recycled Quantity</th>
-                                    
+
                                     <th className="w-1"></th>
                                 </tr>
                             </thead>
@@ -374,7 +404,7 @@ disabled = {!formData.workOrderNumber}                            >
                                                 }
                                             />
                                         </td>
-                                      
+
                                         <td>
                                             <input
                                                 type="number"
@@ -418,73 +448,73 @@ disabled = {!formData.workOrderNumber}                            >
                 </div>
             </div> */}
 
-        {/* downtime section */}
-           {/* downtime section */}
-           <h3 className="font-semibold text-lg">Add Downtime Details</h3>
-                <div className="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>SL Number</th>
-                                <th>Description</th>
-                                <th>Minutes</th>
-                                <th>Remarks</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {downtimeItems.map((item) => (
-                                <tr key={item.id}>
-                                    <td>{item.id}</td>
-                                    <td>
-                                        <input
-                                            type="text"
-                                            placeholder="Description"
-                                            className="form-input"
-                                            value={item.description}
-                                            onChange={(e) =>
-                                                handleDowntimeChange(item.id, 'description', e.target.value)
-                                            }
-                                        />
-                                    </td>
-                                    <td>
-                                        <input
-                                            type="number"
-                                            placeholder="Minutes"
-                                            className="form-input"
-                                            value={item.minutes}
-                                            onChange={(e) =>
-                                                handleDowntimeChange(item.id, 'minutes', Number(e.target.value))
-                                            }
-                                        />
-                                    </td>
-                                    <td>
-                                        <input
-                                            type="text"
-                                            placeholder="Remarks"
-                                            className="form-input"
-                                            value={item.remarks}
-                                            onChange={(e) => handleDowntimeChange(item.id, 'remarks', e.target.value)}
-                                        />
-                                    </td>
-                                    <td>
-                                        <button type="button" onClick={() => removeDowntimeItem(item)}>
-                                            <IconX className="w-5 h-5" />
-                                        </button>
-                                    </td>
+                    {/* downtime section */}
+                    {/* downtime section */}
+                    <h3 className="font-semibold text-lg ">Add Downtime Details</h3>
+                    <div className="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>SL Number</th>
+                                    <th>Description</th>
+                                    <th>Minutes</th>
+                                    <th>Remarks</th>
+                                    <th></th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    <button
-                        type="button"
-                        className="btn btn-primary mt-4"
-                        onClick={addDowntimeItem}
-                    >
-                        <IconChecks className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                        Add Downtime Detail
-                    </button>
-                </div>
+                            </thead>
+                            <tbody>
+                                {downtimeItems.map((item) => (
+                                    <tr key={item.id}>
+                                        <td>{item.id}</td>
+                                        <td>
+                                            <input
+                                                type="text"
+                                                placeholder="Description"
+                                                className="form-input"
+                                                value={item.description}
+                                                onChange={(e) =>
+                                                    handleDowntimeChange(item.id, 'description', e.target.value)
+                                                }
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                type="number"
+                                                placeholder="Minutes"
+                                                className="form-input"
+                                                value={item.minutes}
+                                                onChange={(e) =>
+                                                    handleDowntimeChange(item.id, 'minutes', Number(e.target.value))
+                                                }
+                                            />
+                                        </td>
+                                        <td>
+                                            <input
+                                                type="text"
+                                                placeholder="Remarks"
+                                                className="form-input"
+                                                value={item.remarks}
+                                                onChange={(e) => handleDowntimeChange(item.id, 'remarks', e.target.value)}
+                                            />
+                                        </td>
+                                        <td>
+                                            <button type="button" onClick={() => removeDowntimeItem(item)}>
+                                                <IconX className="w-5 h-5" />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        <button
+                            type="button"
+                            className="btn btn-primary mt-4 float-right"
+                            onClick={addDowntimeItem}
+                        >
+                            <IconChecks className="ltr:mr-2 rtl:ml-2 shrink-0" />
+                            Add Downtime Detail
+                        </button>
+                    </div>
 
 
                 </div>

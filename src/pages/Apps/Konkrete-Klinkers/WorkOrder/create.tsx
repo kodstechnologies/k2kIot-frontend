@@ -269,9 +269,9 @@ const Create = () => {
             </tbody>
         </table>
     </div>
-    <div className="flex justify-between sm:flex-row flex-col mt-6 px-4">
-        <div className="sm:mb-0 mb-6">
-            <button type="button" className="btn btn-primary" onClick={() => addItem()}>
+    <div className="flex justify-between sm:flex-row flex-col mt-6 px-4 float-right">
+        <div className="sm:mb-0 mb-6 ">
+            <button type="button" className="btn btn-primary " onClick={() => addItem()}>
                 <IconChecks className="ltr:mr-2 rtl:ml-2 shrink-0" />
                 Add Product
             </button>

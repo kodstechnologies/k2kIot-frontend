@@ -8,8 +8,8 @@ import Header from './Header';
 import Setting from './Setting';
 import Sidebar from './Sidebar';
 import Portals from '../../components/Portals';
-import { CopilotPopup } from '@copilotkit/react-ui';
-import FAQ from './Faq';
+// import { CopilotPopup } from '@copilotkit/react-ui';
+// import FAQ from './Faq';
 
 const DefaultLayout = ({ children }: PropsWithChildren) => {
     const themeConfig = useSelector((state: IRootState) => state.themeConfig);
@@ -97,7 +97,7 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
                             <div className={`${themeConfig.animation} p-6 animate__animated`}>{children}</div>
                         </Suspense>
                         {/* END CONTENT AREA */}
-                        <FAQ />
+                        {/* <FAQ /> */}
 
 
                         {/* BEGIN FOOTER */}

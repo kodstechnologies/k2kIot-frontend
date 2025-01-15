@@ -2,8 +2,8 @@ import { PropsWithChildren, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from './store';
 
-import { CopilotKit } from '@copilotkit/react-core';
-import '@copilotkit/react-ui/styles.css';
+// import { CopilotKit } from '@copilotkit/react-core';
+// import '@copilotkit/react-ui/styles.css';
 
 import { toggleRTL, toggleTheme, toggleLocale, toggleMenu, toggleLayout, toggleAnimation, toggleNavbar, toggleSemidark } from './store/themeConfigSlice';
 import store from './store';
@@ -45,9 +45,9 @@ function App({ children }: PropsWithChildren) {
             className={`${(store.getState().themeConfig.sidebar && 'toggle-sidebar') || ''} ${themeConfig.menu} ${themeConfig.layout} ${themeConfig.rtlClass
                 } main-section antialiased relative font-nunito text-sm font-normal`}
         >
-         <CopilotKit runtimeUrl="http://localhost:3000/copilotkit">
+         {/* <CopilotKit runtimeUrl="http://localhost:3000/copilotkit"> */}
           {children}
-        </CopilotKit>
+        {/* </CopilotKit> */}
         </div>
     );
 }

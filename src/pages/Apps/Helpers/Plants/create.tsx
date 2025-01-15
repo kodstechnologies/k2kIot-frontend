@@ -56,7 +56,7 @@ const ClientCreation = () => {
         <div>
             <Breadcrumbs
                 items={breadcrumbItems}
-                addButton={{ label: 'Back', link: '/clients' }}
+                addButton={{ label: 'Back', link: '/plants' }}
             />
             <div className="panel">
                 <div className="mb-5">

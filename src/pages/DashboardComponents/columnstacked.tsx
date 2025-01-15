@@ -23,7 +23,7 @@ const HorizontalStackedBarChart: React.FC = () => {
         ],
         options: {
             chart: {
-                height: 500,
+                height: 600,
                 type: 'bar',
                 stacked: true,
                 toolbar: {
@@ -34,6 +34,7 @@ const HorizontalStackedBarChart: React.FC = () => {
             plotOptions: {
                 bar: {
                     horizontal: true,
+                    barHeight: '90%', // Increased bar height to 90%
                 },
             },
             xaxis: {
@@ -90,7 +91,7 @@ const HorizontalStackedBarChart: React.FC = () => {
                 theme: 'light',
             },
             fill: {
-                opacity: 0.8,
+                opacity: 0.9,
             },
         },
     };

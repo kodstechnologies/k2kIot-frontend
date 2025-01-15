@@ -66,26 +66,26 @@ const InvoicePreview = () => {
     return (
         <div>
             <div className="flex items-center lg:justify-end justify-center flex-wrap gap-4 mb-6">
-                <button type="button" className="btn btn-info gap-2">
+                {/* <button type="button" className="btn btn-info gap-2">
                     <IconSend />
                     Send Invoice
-                </button>
+                </button> */}
 
                 <button type="button" className="btn btn-primary gap-2" onClick={() => exportTable()}>
                     <IconPrinter />
                     Print
                 </button>
-
+{/* 
                 <button type="button" className="btn btn-success gap-2">
                     <IconDownload />
                     Download
-                </button>
+                </button> */}
 
              
             </div>
             <div className="panel">
                 <div className="flex justify-between flex-wrap gap-4 px-4">
-                    <div className="text-2xl font-semibold uppercase">Invoice</div>
+                    <div className="text-2xl font-semibold uppercase">Dispatch Invoice</div>
                     <div className="shrink-0">
                         <img src="/k2k_iot_logo.jfif" alt="img" className="w-14 ltr:ml-auto rtl:mr-auto" />
                     </div>

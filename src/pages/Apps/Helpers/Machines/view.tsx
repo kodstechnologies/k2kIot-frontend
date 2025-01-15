@@ -87,7 +87,7 @@ const ColumnChooser = () => {
     const breadcrumbItems = [
         { label: 'Home', link: '/', isActive: false },
         { label: 'Helpers', link: '#', isActive: false },
-        { label: 'Clients', link: '/clients/view', isActive: true },
+        { label: 'Machine', link: '/machines/view', isActive: true },
     ];
 
     useEffect(() => {
@@ -128,7 +128,7 @@ const ColumnChooser = () => {
 
             <Breadcrumbs
                 items={breadcrumbItems}
-                addButton={{ label: 'Add Client', link: '/clients/create' }}
+                addButton={{ label: 'Add Machine', link: '/machines/create' }}
             />
 
             <div className="panel mt-6">

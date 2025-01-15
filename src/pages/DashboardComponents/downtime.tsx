@@ -78,8 +78,9 @@ const FactoryDowntime: React.FC = () => {
             },
         },
         yaxis: {
+            min: 0, // Set the minimum value of the y-axis to 0
             labels: {
-                formatter: (value: any) => `${value} hrs`,
+                formatter: (value: any) => `${value} minutes`,
                 style: {
                     fontSize: '12px',
                 },
@@ -90,7 +91,7 @@ const FactoryDowntime: React.FC = () => {
                 format: 'dd MMM yyyy',
             },
             y: {
-                formatter: (value: any) => `${value} hours`,
+                formatter: (value: any) => `${value} minutes`,
             },
         },
         colors: isDark ? ['#2196F3', '#E7515A'] : ['#1B55E2', '#E7515A'],

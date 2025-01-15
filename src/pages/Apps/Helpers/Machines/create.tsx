@@ -26,7 +26,7 @@ const ClientCreation = () => {
         try {
             // Example API call to create a client
             const userId = userDetail._id;
-            const response = await fetch(`${baseURL}/clients`, {
+            const response = await fetch(`${baseURL}/machines`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ const ClientCreation = () => {
                 throw new Error('Failed to create client');
             }
             console.log('Client created successfully');
-            navigate('/clients');
+            navigate('/machines');
         } catch (error) {
             console.error('Error creating client:', error);
         }
@@ -48,7 +48,7 @@ const ClientCreation = () => {
     const breadcrumbItems = [
         { label: 'Home', link: '/', isActive: false },
         { label: 'Helpers', link: '/', isActive: false },
-        { label: 'Clients', link: '/clients', isActive: false },
+        { label: 'Machines', link: '/machines', isActive: false },
         { label: 'Create', link: '#', isActive: true },
     ];
 
@@ -56,7 +56,7 @@ const ClientCreation = () => {
         <div>
             <Breadcrumbs
                 items={breadcrumbItems}
-                addButton={{ label: 'Back', link: '/clients' }}
+                addButton={{ label: 'Back', link: '/machines' }}
             />
             <div className="panel">
                 <div className="mb-5">
@@ -87,7 +87,7 @@ const ClientCreation = () => {
     </button>
 
     {/* Cancel Button */}
-    <Link to="/clients" className="flex-1">
+    <Link to="/machines" className="flex-1">
         <button type="button" className="btn btn-danger w-full">
             <IconTrashLines className="ltr:mr-2 rtl:ml-2 shrink-0" />
             Cancel
